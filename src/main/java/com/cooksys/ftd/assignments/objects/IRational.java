@@ -54,7 +54,14 @@ interface IRational {
 	 *             if the numerator of this rational value is 0
 	 */
 	default IRational invert() throws IllegalStateException {
-		throw new MissingImplementationException();
+		
+		if(getNumerator() == 0) {
+			
+			throw new IllegalStateException("Numerator cannot be 0.");
+		}
+		return construct(getDenominator(), getNumerator());
+		
+		//throw new MissingImplementationException();
 	}
 
 	/**
@@ -68,8 +75,30 @@ interface IRational {
 	 * @throws IllegalArgumentException
 	 *             if that is null
 	 */
-	default IRational add(IRational that) throws IllegalArgumentException {
-		throw new MissingImplementationException();
+	default IRational add(IRational that) throws IllegalArgumentException {		
+ 		
+		if(that == null) {
+			
+			throw new IllegalArgumentException("That cannot be null.");
+		}
+		
+		int numerator, denominator;
+		IRational addResult;
+		
+		numerator = (getNumerator() * that.getDenominator()) + (that.getNumerator() * getDenominator());		// ((n1 * d2) + (n2 * d1))
+		
+		denominator = getDenominator() * that.getDenominator();  // (d1 * d2)
+		
+		addResult = construct(numerator, denominator);
+		
+		return addResult;
+
+				
+		//return sum;
+		
+		
+		
+		//throw new MissingImplementationException();
 	}
 
 	/**
@@ -84,7 +113,24 @@ interface IRational {
 	 *             if that is null
 	 */
 	default IRational sub(IRational that) throws IllegalArgumentException {
-		throw new MissingImplementationException();
+		
+		if(that == null) {
+			
+			throw new IllegalArgumentException("That cannot be null.");
+		}
+
+		int numerator, denominator;
+		IRational subResult;
+		
+		numerator = (getNumerator() * that.getDenominator()) - (that.getNumerator() * getDenominator());		// ((n1 * d2) - (n2 * d1))
+		
+		denominator = getDenominator() * that.getDenominator();  // (d1 * d2)
+		
+		subResult = construct(numerator, denominator);
+		
+		return subResult;
+		
+			
 	}
 
 	/**
@@ -99,7 +145,24 @@ interface IRational {
 	 *             if that is null
 	 */
 	default IRational mul(IRational that) throws IllegalArgumentException {
-		throw new MissingImplementationException();
+		
+		if(that == null) {
+			
+			throw new IllegalArgumentException("That cannot be null.");
+		}
+		
+		int numerator, denominator;
+		IRational mulResult;
+		
+		numerator = getNumerator() * that.getNumerator();		// (n1 * n2)
+		
+		denominator = getDenominator() * that.getDenominator();  // (d1 * d2)
+		
+		mulResult = construct(numerator, denominator);
+		
+		return mulResult;
+		
+		//throw new MissingImplementationException();
 	}
 
 	/**
@@ -114,6 +177,24 @@ interface IRational {
 	 *             if that is null or if the numerator of that is 0
 	 */
 	default IRational div(IRational that) throws IllegalArgumentException {
-		throw new MissingImplementationException();
+		
+		
+		if(that == null) {
+			
+			throw new IllegalArgumentException("That cannot be null.");
+		}
+		
+		int numerator, denominator;
+		IRational divisonResult;
+		
+		numerator = getNumerator() * that.getDenominator();		// (n1 * d2) 
+		
+		denominator = getDenominator() * that.getNumerator();	// (d1 * n2)
+		
+		divisonResult = construct(numerator, denominator);
+		
+		return divisonResult;
+		
+		//throw new MissingImplementationException();
 	}
 }

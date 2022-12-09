@@ -3,7 +3,13 @@ package com.cooksys.ftd.assignments.objects;
 import com.cooksys.ftd.assignments.objects.util.MissingImplementationException;
 
 public class SimplifiedRational implements IRational {
-    /**
+	
+	private int numerator;
+	private int denominator;
+//	private int[] expectedArray;
+	private static int[] simplifiedElm = new int[2];
+
+	/**
      * Determines the greatest common denominator for the given values
      *
      * @param a the first value to consider
@@ -12,7 +18,28 @@ public class SimplifiedRational implements IRational {
      * @throws IllegalArgumentException if a <= 0 or b < 0
      */
     public static int gcd(int a, int b) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+       
+		//throw new MissingImplementationException();
+
+    	int GCD = 1;
+
+    	if((a <= 0) || (b <= 0)) {		
+    		
+    		throw new IllegalArgumentException("a cannot be <= 0. b cannot be <= 0.");
+    	}
+    	else {
+    		    		
+			 while (true) {
+			  int remainder = a % b;
+			  if(remainder==0){
+			   return b;
+			  }else{
+			   a=b;
+			   b=remainder;
+			  }
+			 }			
+    	}     
+    	
     }
 
     /**
@@ -29,7 +56,36 @@ public class SimplifiedRational implements IRational {
      * @throws IllegalArgumentException if the given denominator is 0
      */
     public static int[] simplify(int numerator, int denominator) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+
+		//throw new MissingImplementationException();
+
+    	
+    	if(denominator == 0) {
+    		
+    		throw new IllegalArgumentException("Denominator cannot be 0.");
+    	}
+    	
+    	
+    	
+    	if(numerator == 0) {
+    		
+    		simplifiedElm[0] = 0;		// eg. 2/2 => 1
+        	simplifiedElm[1] = 1;
+        	
+    	}else {
+    		
+    		int sr = gcd(Math.abs(numerator), Math.abs(denominator));
+	    	
+        	//int[] simplifiedElm = new int[2];
+
+        	simplifiedElm[0] = numerator/sr;		// eg. 2/2 => 1
+        	simplifiedElm[1] = denominator/sr;		// eg. 10/2 => 5
+    	}
+    	
+    
+    	
+    	return simplifiedElm;  
+    	    	
     }
 
     /**
@@ -45,7 +101,21 @@ public class SimplifiedRational implements IRational {
      * @throws IllegalArgumentException if the given denominator is 0
      */
     public SimplifiedRational(int numerator, int denominator) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+        
+	//	throw new MissingImplementationException();
+
+    	
+    	if(denominator == 0) {
+    		
+    		throw new IllegalArgumentException("Denominator cannot be zero.");
+    	}
+
+    	int[] testArray = simplify(numerator, denominator);
+
+    	this.numerator = testArray[0];
+    	this.denominator = testArray[1];
+    	
+    	
     }
 
     /**
@@ -53,7 +123,7 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public int getNumerator() {
-        throw new MissingImplementationException();
+    	return this.numerator;
     }
 
     /**
@@ -61,7 +131,7 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public int getDenominator() {
-        throw new MissingImplementationException();
+    	return this.denominator;
     }
 
     /**
@@ -77,7 +147,14 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public SimplifiedRational construct(int numerator, int denominator) throws IllegalArgumentException {
-        throw new MissingImplementationException();
+        
+    	if(denominator == 0) {
+    		
+    		throw new IllegalArgumentException("Denominator cannot be 0.");
+    	}
+    	    	
+    	return new SimplifiedRational(numerator, denominator);
+
     }
 
     /**
@@ -88,8 +165,24 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public boolean equals(Object obj) {
-        throw new MissingImplementationException();
-    }
+        
+		//throw new MissingImplementationException();
+
+
+    	if(this == obj) {
+    		
+    		return true;
+    	}
+    	
+    	
+    	if(obj instanceof SimplifiedRational && (((SimplifiedRational) obj).getNumerator()== getNumerator() && ((SimplifiedRational) obj).getDenominator() == getDenominator())){    			
+    			
+    		return true;
+    	}
+    
+    	return false; 
+    	    	
+    } 
 
     /**
      * If this is positive, the string should be of the form `numerator/denominator`
@@ -98,8 +191,39 @@ public class SimplifiedRational implements IRational {
      *
      * @return a string representation of this rational value
      */
+    
     @Override
     public String toString() {
-        throw new MissingImplementationException();
-    }
+    	
+	//	throw new MissingImplementationException();
+
+    	String finalString = "";
+    	//(-1 * Math.abs(getNumerator()))  + "/" + Math.abs(getDenominator());
+    	
+    	
+    	if(getNumerator() > 0 && getDenominator() > 0) {
+    		
+			finalString = Math.abs(getNumerator())  + "/" + Math.abs(getDenominator());  
+
+    	}
+    	if(getNumerator() > 0 && getDenominator() < 0) {
+			finalString = (-1*Math.abs(getNumerator()))  + "/" + Math.abs(getDenominator());  
+
+    		
+    	}
+    	if(getNumerator() < 0 && getDenominator() < 0) {
+			finalString = Math.abs(getNumerator())  + "/" + Math.abs(getDenominator());  
+
+    		
+    	}
+    	if(getNumerator() < 0 && getDenominator() > 0) {
+			finalString = (-1*Math.abs(getNumerator()))  + "/" + Math.abs(getDenominator());  
+
+    		
+    	}
+    	
+    	
+    	return finalString;
+
+    } 
 }
